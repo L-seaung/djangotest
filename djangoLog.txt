@@ -1,0 +1,60 @@
+django 日志
+python内建了logging模块打印日志
+logging有以下四个组成部分：
+
+    loggers,
+    Handlers,
+    Filters,
+    formatters,
+logger是日志系统的入口，每个logger命名都是bucker，你可以向这个bucker写入需要的处理消息，每个logger都有一个错误级别，表示logger
+将要处理的消息严重性；
+DEBUNG：用于调试底层系统信息
+INFO：普通的系统信息
+WARNING：表示出现了一个较小的问题
+ERROR：表示出现了一个较大的问题
+CRITICAL：表示出现了一个致命的问题
+
+note：logger处理消息，如下：
+当把一条信息传给logger时，logger会将消息的日志级别与logger的日志级别进行比较，如果消息大于等于logger的日志级别，该消息会往下继续处理
+，如果小于该消息它将被忽略（一旦决定处理，它将把消息传递给Handlers）
+
+Handlers:决定如何处理logger中的每条消息。它表示一个特定的日志行为，例如，将消息打印到屏幕上，写到文件或者到网络socket，与logger
+一样也有一个错误级别
+
+Filters：用于从logger传给Handlder的日志记录进行额外的控制，还可以修改将要处理的日志记录的优先级
+
+Formatters：把日志记录转换为文本
+
+logging的使用：
+import logging #import the library
+logger = logging.getLogger(__name__)#get an instance of a logger
+def my_log(request, arg1, arg2):
+    if bad_mojo:
+        logger.error('something went woring!')#log an error message
+        
+logging调用
+logger实例为每个默认的日志级别提供了一个入口方法：
+logger.debug()
+logger.info()
+logger.error()
+logger.critical()
+logger.log():打印消息，手工指定日志级别
+logger.exception():创建一个ERROR级别的日志消息，它封装当前的异常栈的帧
+
+配置logging
+1，django使用dictconfig格式来配置logging（也就是大字典）
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,101 @@
+A，ajax对象的基本步骤（以下用原生js不考虑兼容性问题）：
+1，实例化一个XMLHttpRequest对象
+2，准备要发送的数据的处理方式和url地址
+3，向服务器放送请求
+4，为XMLHttpResquset实例绑定一个onreadystatechenge事件
+5，进行数据的处理
+
+function Requests(){
+  
+  var request = new XMLHttpRequest();
+  var url = 'url_address';
+  var method = 'GET'/'POST';
+  request.open(method, url);
+  request.send(null);
+  request.onreadystatechange = function(){
+    if(request.readyState == 4){
+      if(request.status == 200 || request.status == 304){
+                      ......
+                      ......
+      }
+    }
+  }
+  
+  return false;
+}
+
+B，ajax 数据格式处理（以下用原生js来实现对常见几种数据格进行处理）
+1，html格式：
+对于html格式的数据直接可以渲染到网页模板上
+function Rquests(){
+  var anode = document.getElementsByTagName("a");
+  for(var i = 0; i < anode.lenght; i++){
+    anode[0].onclick = function(){
+      var request = new XMLHttpRequest();
+      var url = this.href;
+      var method = "GET";
+      request.open(method, url);
+      request.send(null);
+      request.onreadystatechange = function(){
+        if(request.readyState == 4){
+          if(request.status == 200 || request.status == 304){
+            document.getElementById('#details').innerHTML = responseText;
+          }
+        }
+      }
+    }
+  }
+  return false;
+}
+
+2，xml格式
+对于xml格式的数据，需要responseXML来获取
+所取到的结果不能直接使用，必须先创建对应的节点，再把它加入到相应的地方（也就是先解析在使用）
+以下是XML代码，我们需要把它解析，然后插入到网页中：
+<? XML version="1.0" encoding="utf-8" ?>
+<details>
+  <name>L-seaung</name>
+  <website>http://abcd.com</website>
+  <email>abcd@leard.com</email>
+</details>
+我们需要把以上代码，转换为下面这种类似的格式：
+function Requests(){
+  var request = new XMLHttpRequst();
+  var result = request.responseXML;
+  var url = this.href;
+  var method = "GET";
+  request.open(method, url);
+  request.send(null);
+  request.onreadystatechange = function (){
+    if(request.readyState == 4){
+      if(request.status == 200 || request.status == 304){
+        var name = result.getElementsByTagName("name")[0].firstChild.nodevalue;
+        var website = result.getElementsByTagName("website")[0].firstChild.nodvalue;
+        var email = result.getElementsByTagName("email")[0].firstChild.nodevalue;
+        
+        var anode = document.createElement("a");
+        anode.appendChild(document.createTextNode(name));
+        anode.href = "mailto" + email;
+        var h2node = document.createElement("h2");
+        h2node.appendChild(anode);
+        
+        var h2node = document.createElement("a");
+        h2node.appendChild(document.createTextNode(website));
+        anode2.href = website;
+        var detailsNode = document.getElementById("details");
+        detailsNode.ineerHTML = "";
+        details.appendChild(h2node);
+        details.appendChild(anode2);
+      }
+    }
+  }
+  return false;
+}
+3，json格式
+
+
+
+
+
+
+

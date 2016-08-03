@@ -1,0 +1,57 @@
+jQuery选择器
+1，层次选择器：
+标签选择器：E
+ID选择器：#E
+类选择器：.E
+群组选择器：E1，E2，E3
+后代选择器：P C
+通配选择符：*
+子选择器：P > C
+相邻选择器：P + N
+兄弟选择器：P ～ N
+
+2，过滤选择器：
+:first 选取第一个元素
+:last 选取最后一个元素
+:not(selector) 选取匹配元素除外的元素
+:even选取索引为偶数的原数
+:odd选取索引为奇数的元素
+:eq(index)选取索引index的元素
+:gt(index)选取索引大index的元素
+:lt(index)选取索引小index的元素
+:header选取所有的标题元素
+:animated选取在执行动画的元素
+:focus选取当前聚焦的元素
+
+3，内容过滤选择器：
+:contains(text)选取文本内容为text的元素
+:enpty()选取不包含子元素或文本的元素
+:has(selector)选取含有选择所匹配的元素
+:parent选取子元素或文本的元素
+
+
+jQuery中的DOM操作
+
+1，创建节点
+var $li_node = $("<li></li>");//创建元素节点
+var $li_node = $("<li title="is me"></li>");//创建属性节点
+var $li_node = $("<li>hello jQuery</li>");//创建文本节点
+
+2，节点的插入
+$("ul").append($li_node);//向匹配的元素内部追加内容
+$($li_node).append("ul");//把$li_node 插入到ul中
+$("body").after($li_node);//
+$($li_node).insertAfter("body");//
+$("ul").befor($li_node);//
+$($li_node).insertBefor("ul");//把$li_node插入大ul元素之前
+
+3，节点的删除
+
+remove()//当某个节点用remove方法删除后，该节点所包含的所有后代节点将同时被删除，
+detach()//
+empty()
+
+
+
+
+

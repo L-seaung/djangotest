@@ -9,6 +9,10 @@ typedef struct Node
 }NODE * PNODE;
 //函数声明
 PNODE create_list(void);//创建链表函数
+void traverse_list(PNODE pHead);
+bool is_empty(PNODE pHead);
+int lenght_list(PNODE pHead);
+
 int main(void)
 {
   PNODE pHead = NULL;//定义头指针并初始化
@@ -54,3 +58,41 @@ PNODE create_list(void)
   }
   return pHead;
 }
+
+void traveser_list(PNODE pHead)
+{
+  PNODE p = pHead->pNext;
+  while(NULL == !p)
+  {
+    printf("%d ",p->data);
+    p = p->pNext;
+  }
+  printf("\n");
+  return 0;
+}
+
+bool is_empty(PNODE pHead)
+{
+  if(NULL == pHead->pNext)//只有一个头结点，即头结点的指针为空则链表为空
+    return true;
+  else
+    return false;
+}
+
+int lenght_list(PNODE pHead)
+{
+  PNODE p = pHead->pNext;//定义指针p使它指向头结点，如果它不空则加1，p后移，直到链表的尾部
+  int len = 0;
+  while(NULL != p)
+  {
+    ++len;
+    p = p->pNext;
+  }
+  return len;
+}
+
+
+
+
+
+

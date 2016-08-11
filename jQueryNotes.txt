@@ -51,6 +51,106 @@ remove()//当某个节点用remove方法删除后，该节点所包含的所有�
 detach()//
 empty()
 
+属性操作
+1，获取属性
+var $pare = $("p");
+var p_txt = $pare.attr("title");
+2，设置属性
+$("element").attr("class", "class_name");
+$("element").attr({"title":"hello world", "name":"her"});
+3，删除属性
+$("element").removeAttr("attr_name");
+
+样式操作
+1，获取样式和设置样式基本上都差不多
+
+2，追加样式 
+//addClass()
+$("element").addClass("style");
+
+3，删除样式
+//removeClass()
+$("element").removeClass("style);
+
+4，切换样式
+//toggle()
+
+$toggleBtn.toggle(
+  function(){
+    1,code;
+  },
+  function(){
+    2,code;
+  }
+);
+
+5，控制样式上的重复切换
+//toggleClass()
+$("element").toggleClass("style");
+
+6，判断是否含有某个样式
+//hasClass()
+$("element").hasClass();
+
+7，获取和设置html
+//html()
+$("element").html();
+$("element").html("oh");
+
+8，获取和设置文本
+//text()
+$("element").text();
+$("element").text("this is a text");
+
+9，获取和设置元素的值
+//val()
+$("element").val();
+$("element").val(values);
+
+css-DOM操作
+css()获取元素样式和设置样式
+$("element").css("color", "red");
+$("element").css({"color":"#eeeeee", "backgroundColor":"b5b5b5"});
+$("element").css("opacity", "0.5");
+
+height()//获取设置元素高度
+$("element").height();
+$("element").height("300px");
+
+width()//获取设置元素宽度
+$("element").widht();
+$("element").width("300px");
+
+offset()//获取元素在当前视口的相对偏移量，返回的对象包含两个属性即，left, top;
+var offset = $("element").offset();
+var left = offset.left;
+var top = offset.top;
+
+position()//获取元素在最近的一个position样式属性设置为relative, absolute的父节点的相对偏移量
+
+var position = $("element").position();
+var left = position.left;
+var top = position.top;
+
+scrollLeft() 和 scrollTop()
+//获取元素的滚动条距离左侧和顶部的距离；
+var scrollTop = $("element").scrollTop();
+var scrollLeft = $("element").scrllLeft();
+
+var $("element").scrollLeft();
+var $("element").scrollTop();
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

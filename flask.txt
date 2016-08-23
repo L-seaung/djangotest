@@ -135,5 +135,55 @@ all(),first(),filter()分别用于查询全部，第一条，和条件查询
      限制用户的数量：User.query.limit(1).all()
      
 
-flask 之jinja模板引擎
+flask 之jinja模板引擎(模板语法)
 1，变量
+在模板文件中定义变量，以一对双花括号的方式加变量名
+{{variable_name}}
+
+2，赋值语句{% set link=[{'label':'Home', 'href':url_for('.index')}] %}
+在jinja中url_for()里要引用视图函数要用点（.）
+
+{% set links=[
+    {'label':'Home', 'href':url_for('.index')},
+    {'label':'About', 'href':url_for('.about')},
+    {'label':'Service', 'href':url_for('.service')},
+    {'label':'Project', 'href':url_for('.project')},
+] %}
+
+3,with语句控制变量的作用域
+{% with %}{% endwith %}
+
+4,for语句
+{% for %}{% endfor %}
+
+5,if语句
+{% if %}{% endif %}
+
+6,模板继承
+通过{% block block_name %}{% endblock %}来标记要让子板继承的内容（也就是占位置）
+例如通过{% extnds base.html %}让子板继承，子板可通过{% block block_name %}{% endblock %}来修改
+
+*notes：
+      {% for items in seq %}
+        <li>{% block loop_item %}{{items}}{endblock}</li>
+      {% endfor %}
+      上述代码中变items被包含在block块中，使得外界无法访问，但是我们可以在块中使用scoped关键字来访问
+      {% for items in seq %}
+        <li>{% block loop_item scoped %}{{items}}{% endblock %}</li>
+      {% endfor %}
+      
+7,宏的定义和使用
+在html模板中定义和使用宏也可以把宏定义在单独的文件中
+jinja中的宏就像是python中的函数
+下面就是一个简单的例子：
+{% macro input(name, value='', type='text', size=20) %}
+    <input type="{{type}}" name="{{name}}" value="{{value}}" size="{{size}}" />
+{% endmacro %}
+
+下面是宏的调用
+{{input("username")}}
+{{input("password", type='password')}}
+
+如果宏是定在其他的文件夹中，你就需要导入它
+{% import 'form.hmtl' as forms %}
+调用时只需这样{{forms.input('username')}}

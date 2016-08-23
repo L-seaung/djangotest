@@ -1,0 +1,139 @@
+flask的安装
+1，在ubuntu 上可以用 sudo apt-get install flask 这条命令进行简单的安装（全局安装）
+2，也可以在pypi.org上下载源码包进行编译安装，利用tar -zxvf 命令进行解压， cd进去解压好的目录执行sudo python setup.py install 命令进行安装
+，注意我安装时用到了超级用户的权限，
+3，当然也可以使用 pip 这个工具进行安装，安装前检查pip的版本，和升级它（这虽然不是必须的，但是版本太老也不行，原因是我遇到过pip的版本太老，在安装python的一些扩展时报了不应该的错误）
+
+虚拟环境的安装（virtualenv）
+1，因为我的机子ubuntu，所以我用的命令是sudo apt-get install virtualenv 来进行安装，你也可以下载相应的源码包，解压进行编译安装， 当然还可以用pip进行安装
+2，为什么要安装和创建虚拟环境，这样做是为了解决，python包依赖之间的冲突；创虚拟环境的命令virtualenv 虚拟环境名
+3，激活虚拟环境 . 虚拟环境的目录/bin/activate
+
+一个简单的应用程序
+from flask import Flask
+app = Flask(__name__)
+
+@app.route('/')
+def index():
+    return "hello world"
+    
+if __name__ == '__main__':
+    app.run(debug=True)
+    
+flask 生命周期
+        user----->http://www.example.com/index
+                    |
+                    V
+                  路由
+                    |产生
+                    V
+                  request对象
+              form  cookie  args
+                    |
+                    V
+                  视图函数
+              redirect  render_template ->产生response对象————>把页面返回给用户
+              make_response------->直接产生response对象
+              
+flask路由转换器
+
+int 类型
+float类型
+path 类型
+例子如下：
+@app.route('/'):
+def index():
+    return "string"
+@app.route('/user/<int:username>')
+def user(username):
+    return username
+    
+@app.route('/about/<ifloat:help>')
+def about(help):
+    return help
+    
+flask 自定义路由转换规则，自定义的路由转换器它依赖于werkzeug这个工具的routing这个扩展，来扩展指定路由规则
+例子如下是一个自定义的正则表达式的路由转换器
+from werkzeug.routing import BaseConverter
+
+class RegexConveter(BaseConverter):
+    def __init__(self, url_map, items):
+        super(RegexConverter, self).__init__(url_map)
+        self.regex = items[0]
+        
+app.url_map.converters['regex'] = RegexConverter
+
+@app.route('user/<regex("[a-z]{3}"):user_id>')
+def user(user_id):
+    return 'user %s'% user_id
+
+flask之SQLAlchemy
+1，数据库的连接：
+  MYSQL：Mysql://username:password@hostname/database_name
+  postgres: postgres://username:password@hostname/database_name
+  sqllite:  sqlite:///absolute_path/database_name
+  
+2,数据库的配置，以sqlite数据库为例
+from flask_sqlalchemy import SQLAlchemy
+import os
+basedir = os.path.abspath(os.path.dirname(__file__))
+#app.config.from_pyfile('config')
+app.config['SQLALCHEMY_DATABASE_URI'] = \
+    'sqlite:///' + os.path.join(basedir, 'data.sqlite')
+app.config['SQLALCHEMY_COMMIT_TEAROW'] = True
+db = SQLAchemy(app)
+
+sqlite的数据库URL必须保存到flask配置对象的SQLALCHEMY_DATABASE_URI键中
+配置对象中还有一个很有用的选项，即SQLALCHEMY_COMMIT_ON_TEAROWN键，将其设为Ture，这样每次提交结束后都会自动提交数据库的变动
+
+创建数据库表
+class Role(db.Model):
+    __tablename__ = 'roles'
+    id = db.Column(db.Integer, primary_key=true)
+    name = db.Column(db.String, nullable=True)
+    users = db.relationship('User', backref='role')
+    
+#relationship 的第一个参数是一个类名， 第二个参数backref反向应用，指向的是当前的这张表
+    
+class User(db.Model):
+    __tablename__ = 'users'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String, nullbale=True)
+    password = db.Column(db.String, nullable=True)
+    role_id = db.Column(db.Integer, db.Foreignkey('roles.id'))
+
+#foreignkey指向主表id使其建立起关系
+    
+sqlalchemy常用的orm操作
+1，可以通过sqlalchemy的实例对象点（.）来创建数据库表和数据库，如下：
+from yourapplication import db
+from yourapplication.models import *
+db.create_all()
+a，插入数据：
+  1），创建python对象
+  2），把它添加到会话里
+  3），提交会话
+  from yourappliaction import User
+  me = User('admin')
+  me.session.add(me)
+  me.session.commit()
+  
+b，删除数据
+db.session.delete(me)
+db.session.commit()
+
+c，查询记录
+flask-sqlalchemy在Model类提供了query属性
+all(),first(),filter()分别用于查询全部，第一条，和条件查询
+若想要用主键查询，可以用get()
+下面是查询例子：
+     通过用户名查询用户：peter = User.query.filter_by(username = 'peter').first()
+                         peter.id    
+                         peter.email
+     按照某种规则排序：User.query.order_by(User.username)
+     使用主键查询用户：User.query.get(1)
+     限制用户的数量：User.query.limit(1).all()
+     
+
+flask 之jinja模板引擎
+1，变量

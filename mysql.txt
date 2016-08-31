@@ -43,8 +43,3 @@ c，创建方法：MySQLdb.connector(args)
       cursor.close()
       connector.close()
       
-mysql创建数据库
-
-1，create database;
-2,create table table_name();
-      

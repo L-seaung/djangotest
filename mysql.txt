@@ -1,0 +1,50 @@
+1，python连接数据库
+python代码包含sql代码
+         |
+         V
+    python客户端                    mysql客户端工具
+         |                              ^
+         V                              |
+    python-mysql  connector-------->mysql服务器
+    
+    
+a，DB API 数据库连接对象connection
+b，连接对象：建立python客户端与数据库的网络连接
+c，创建方法：MySQLdb.connector(args)
+
+列：
+    参数名     类型       说明
+    host       string     mysql服务器的地址
+    port       int        mysql服务器的端口
+    user       string     用户名
+    password   string    密码
+    db        string     数据库名
+    charset   string     连接编码
+    
+    d，connection对象支持的方法
+       方法名        说明
+       cursor()      使用该连接并返回游标
+       commit()      提交事务
+       rollback()    会滚事务
+       close()       关闭连接
+  例子：
+      import MySQLdb
+      connector = MySQLdb.connect(
+                  host = '',
+                  port = '',
+                  user = 'username',
+                  password = '',
+                  db = 'db_name',
+                  charset = 'utf8'
+      )
+      cursor = connector.cursor()
+      print cursor
+      print connector
+      cursor.close()
+      connector.close()
+      
+mysql创建数据库
+
+1，create database;
+2,create table table_name();
+      

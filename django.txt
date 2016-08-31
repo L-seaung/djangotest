@@ -1,0 +1,38 @@
+安装django
+1，sudo apt-get install django 这条命令是进行全局安装
+2，去djangoproject.com下载源码包进行编译安装：
+解压：tar -zxvf django-X.X.tar.gz
+      cd 进去解压目录
+      执行命令 sudo python setup.py install 进行编译安装
+3，验证django是否安装成功
+进入python的shell环境
+import django
+django.VERSION()
+
+4，安装虚拟环境
+sudo apt-get install virtualenv
+下载源码包进行编译安装
+解压：
+    tar zxvf virtualenv-x.x.tar.gz
+    cd 进去解压目录
+    执行sudo python setup.py install 进行编译安装
+
+5，创建一个工程
+django-admin.py startproject project_name
+
+6，创建一个网站
+cd进去刚刚创建好的工程目录
+django-admin.py startapp application_name
+
+7，运行开发服务器
+python manage.py runserver 0.0.0.0:8000
+
+8，同步数据库和进行数据的迁移
+python manage.py mikemigrations application_name
+python manage.py migrate application_name
+
+9,静态文件的设置
+#settings.py 
+STATICFLIES_DIRS = (
+    os.path.join(BASE_DIRS, 'static'),
+)

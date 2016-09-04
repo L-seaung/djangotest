@@ -36,3 +36,26 @@ python manage.py migrate application_name
 STATICFLIES_DIRS = (
     os.path.join(BASE_DIRS, 'static'),
 )
+10，pyMySQL的使用
+django默认导入的数据库驱动是MySQLdb，所以要使用pymsql先在工程目录下的__init__.py中导入它，如下：
+import pymysql
+pymysql.install_as_MySQLdb()
+
+11,常用ORM操作
+A，增加 create save：
+Obj.objects.create('cloumn1',cloumn2,cloumn3,,,)
+obj = objects()
+obj.name = 'values1'
+obj.age = 'values2'
+obj.save()
+
+B,修改 update
+obj.objects.filter(id=id).update(name=name)
+
+C,删除 delete(它是QuerySet 方法，而且是级联删除)
+obj.objects.filter(id = id).delete(name = name)
+
+
+
+
+

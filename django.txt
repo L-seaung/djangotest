@@ -55,7 +55,35 @@ obj.objects.filter(id=id).update(name=name)
 C,删除 delete(它是QuerySet 方法，而且是级联删除)
 obj.objects.filter(id = id).delete(name = name)
 
+12，查询常用API
+a，get()方法返回的是一个models的对象；返回结果有且只有一个，如果符合筛选条件的对象超过一个，就会抛出MultipleobjectsRetured异常
+如果没有找到符合条件的对象就会抛出DoesNoExist异常
 
+b，distinct()剔除重复记录
 
+c，exclude()查询条件不匹配的对象与filter()相反
 
+d，filter()查询条件匹配的对象
 
+e，exists()是否有数据存在，有就返回True，没有就返回False
+
+f，count()返回数据库中匹配的查询（Queryset）的对象数量
+
+g，values()
+
+h，values_list()
+
+j，first()
+
+k，last()
+
+13，多表联合查询
+
+a，查询技巧：
+__:两下划线可以生成连接查询，查询关联的字段信息
+_set:提供了对象访问相关联表的数据的方法，但是这种方法只能是相关类访问定义了关系的类（主键类访问外键类）
+
+b，例子：
+author__name = 'name'
+pub = publisher.objects.get(name='name')
+pub.book_set.all()

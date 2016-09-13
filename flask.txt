@@ -232,3 +232,5 @@ from flask import Blueprint
 auth_blueprint = Blueptint('auth', __name__)
 import your view_function or forms_models
 
+#最后在主程序中注册蓝图
+app.register_blueprint(auth_blueprint)

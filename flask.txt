@@ -187,3 +187,48 @@ jinja中的宏就像是python中的函数
 如果宏是定在其他的文件夹中，你就需要导入它
 {% import 'form.hmtl' as forms %}
 调用时只需这样{{forms.input('username')}}
+
+8，编写命令行脚本
+flask 提供了flask-script这个扩展来供用户调用外部脚本的功能
+#manage.py
+
+from flask.ext.script import Manager, Server
+from yourapp import create_app
+
+app = create_app()
+manager = Manager(app)
+manager.add_command("server", Server())
+
+@manager.shell
+def make_shell_context():
+    return dict(app = app)
+    
+if __name__ == '__main__':
+    manager.run()
+
+9，数据库的迁移
+flask 提供 flask-Migrate扩展来编写数据库迁移脚本，一般这个扩展会和flask-script一起使用
+#manage.py
+from yourapp import db
+from yourapp import create_app
+from flask-migrate import Migrate, MigrateCommand
+from flask-script import Manager
+
+app = create_app()
+manager = Manager(app)
+migrate = Migrate(app)
+manager.add_command('db', MigrateCommand)
+
+if __name__ == '__main__':
+    manager.run(debug=True)
+    
+10，flask的子集蓝图(blueprint)
+作用是把项目代码分散成几个单独的子模块，方便项目代码的管理和维护
+在你的项目主目录下创建一个或多个文件夹， 在新建一个名为__init__.py的文件，声明这个文件意在与要告诉python的解释器，这是一个包
+下面是蓝图的定义
+#__init__.py
+from flask import Blueprint
+
+auth_blueprint = Blueptint('auth', __name__)
+import your view_function or forms_models
+

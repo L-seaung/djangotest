@@ -1,24 +1,45 @@
 #include "stdio.h"
 #include "unistd.h"
 #include "fcntl.h"
-
+#include "string.h"
 
 int main(int argc, char * argv[])
 {
-  int file;
-  int write_file;
-  char *buffer[] = "hello linux, your are beautiful!";
-  int buffer_size = 128;
-  
-  file = open(argv[1], O_RDWR);
-  if(file < 0)
+  int rd_fd, wr_fd;
+  char read_buf[128] = {0};
+  int rd_ret = 0;
+  if(argc < 3)
   {
-    printf("open %s file failure\n", argv[1]);
+    printf("please input src file and des file\n");
     return -1;
   }
-  printf("open %s file sucess\n", argv[1]);
-  write_file = write(file, buffer, buffer_size);
-  printf("write %s file sucess!\n", argv[2]);
-  close(file);
+  
+  rd_fd = open(argv[1], O_RDONLY);
+  if(rd_fd < 0)
+  {
+    printf("open src file %s failure \n", argv[1]);
+    return -2;
+  }
+  printf("open src file %s sucess , rd_fd = %d\n", argv[1], rd_fd);
+  wr_fd = open(argv[2], O_WRONLY);
+  if(wr_fd < 0)
+  {
+    printf("open file %s failure \n", argv[2] );
+    return -3;
+  }
+  printf("open des file %s sucess wr_fd = %d \n", argv[2], wr_fd);
+  
+  while(1)
+  {
+    rd_ret = read(rd_fd, read_buf, 128);
+    if(rd_ret < 128)
+      break;
+    write(wr_fd, read_buf, rd_ret);
+    memset(read_buf, 0, 128);
+  }
+  
+  write(wr_fd, read_buf, rd_ret);
+  close(rd_fd);
+  close(wr_fd);
   return 0;
 }

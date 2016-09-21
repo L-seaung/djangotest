@@ -234,3 +234,17 @@ import your view_function or forms_models
 
 #最后在主程序中注册蓝图
 app.register_blueprint(auth_blueprint)
+
+
+11，表单的创建
+flask-wtf，wtform扩展
+#forms.py
+from flask.ext.wtf import Form
+from wtform.validator import DataRequest
+from wtform import StringField, PasswordField， SubmitField
+
+class LoginForm(Form):
+    username = StringField(u'用户名', max(255), [DataRequest()])
+    Password = PasswordField(u'密码', max(255), [Datareuest()])
+    submit = SubmitField(u'提交')
+

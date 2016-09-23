@@ -248,3 +248,12 @@ class LoginForm(Form):
     Password = PasswordField(u'密码', max(255), [Datareuest()])
     submit = SubmitField(u'提交')
 
+12，flask-Admin扩展
+flask提供了Admin这个扩展来编写我们的后台管理界面
+flask-admin制定了三种视图类来扩展编写后台界面：
+BaseView, ModelView, AdminView这三种视图类来处理不同的路由
+
+
+
+
+

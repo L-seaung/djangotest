@@ -39,3 +39,40 @@
 安全性： 
 开发系统的特性让分布式计算系统存在着数据的安全性和共享的风险等问题。
 
+
+
+1，启动mongodb数据库
+mongod --dbpath data --logpath log/mongod.log --logappend --fork
+
+2，创建数据库
+use database_name
+
+3，查看数据库
+show dbs
+
+4，切换数据库
+use database_name
+
+5，删除数据库
+1，首先切换到要删除的数据库上
+2，然后执行db.dropDatabase()命令来删除数据库
+
+6，删除集合
+db.collection.drop()
+
+7，插入文档
+db.COLLECTION_NAME.insert({"key1":"value",........})
+也可以把文档赋给一个变量，在进行文档的插入操作
+document = ({
+    "key1":"value1",
+    "key2":"value2",
+    "key3":"value3"
+})
+
+db.col.insert(docment)
+
+note:插入文档你也可以使用 db.col.save(document) 命令。如果不指定 _id 字段 save() 方法类似于 insert() 方法。如果指定 _id 字段，则会更新该 _id 的数据
+
+8，查看文档
+db.COLUMN_NAME.find()
+

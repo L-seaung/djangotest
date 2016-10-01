@@ -108,3 +108,28 @@ writeConcern:可选，抛出异常的级别
 
 example:
 db.col.remove({"key":"values".....})
+
+11,查询文档
+db.col.find()亦非结构化的形式来显示文档
+db.col.find().pretty()以结构化的形式来显示文档
+
+等于	      {<key>:<value>}	      db.col.find({"by":"菜鸟教程"}).pretty()	   where by = '菜鸟教程'
+小于	      {<key>:{$lt:<value>}}	  db.col.find({"likes":{$lt:50}}).pretty()	  where likes < 50
+小于或等于	{<key>:{$lte:<value>}}	db.col.find({"likes":{$lte:50}}).pretty()	where likes <= 50
+大于	      {<key>:{$gt:<value>}}	  db.col.find({"likes":{$gt:50}}).pretty()	  where likes > 50
+大于或等于	{<key>:{$gte:<value>}}	db.col.find({"likes":{$gte:50}}).pretty()	where likes >= 50
+不等于	     {<key>:{$ne:<value>}}	 db.col.find({"likes":{$ne:50}}).pretty()	 where likes != 50
+
+12,条件查询文档
+$lt：小于
+$gt：大于
+$lte：小于等于
+$gte：大于等于
+
+db.col.find({"like":{$lt:100}}).pretty()
+db.col.find({"like":{$gt:100}}).pretty()
+db.col.find({"like":{$lte:100}}).pretty()
+db.col.find({"like":{$gte:200}}).pretty()
+
+13,limit 和 skip方法
+db.col.find().limit(number)

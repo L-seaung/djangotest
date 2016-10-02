@@ -133,3 +133,13 @@ db.col.find({"like":{$gte:200}}).pretty()
 
 13,limit 和 skip方法
 db.col.find().limit(number)
+
+14,排序
+mongodb提供了sort()方法对数据进行排序，值为1升序操作，-1为降序操作
+db.col.find().sort({"like":1})
+如果没有指定sort()方法，默认是升序排列
+
+15,索引
+mongodb使用ensureIndex()方法来创建索引
+db.col.ensureIndex({key:1})
+key为想要创建索引的字段，1为按升序操作创建索引，-1为按降序操作创建索引

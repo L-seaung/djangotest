@@ -58,7 +58,7 @@ use database_name
 2，然后执行db.dropDatabase()命令来删除数据库
 
 6，删除集合
-db.collection.drop()
+db.collection_name.drop()
 
 7，插入文档
 db.COLLECTION_NAME.insert({"key1":"value",........})
@@ -95,6 +95,8 @@ multi:可选，mongodb 默认是false,只更新找到的第一条记录，如果
 writeConcern:可选，抛出异常的级别。
 
 db.col.update({"title":"mongodb"}, {$set:{"title":"mongodb tutorial"}})
+=========更新多条数据========
+db.col.update({"title":"mongodb"}, {$set:{"title":"mongodb tutorial"}}, false, true)
 
 10,删除文档
 db.col.remove(
@@ -108,6 +110,7 @@ writeConcern:可选，抛出异常的级别
 
 example:
 db.col.remove({"key":"values".....})
+db.col_name.drop()//相当于删除表操作
 
 11,查询文档
 db.col.find()亦非结构化的形式来显示文档
@@ -134,6 +137,11 @@ db.col.find({"like":{$gte:200}}).pretty()
 13,limit 和 skip方法
 db.col.find().limit(number)
 
+db.col.find().pretty().limit(3)//限制返回三条数据
+
+========skip跳过指定数量的数据========
+db.col.find().limit(2).skip(2)
+
 14,排序
 mongodb提供了sort()方法对数据进行排序，值为1升序操作，-1为降序操作
 db.col.find().sort({"like":1})
@@ -143,7 +151,14 @@ db.col.find().sort({"like":1})
 mongodb使用ensureIndex()方法来创建索引
 db.col.ensureIndex({key:1})
 key为想要创建索引的字段，1为按升序操作创建索引，-1为按降序操作创建索引
+mongodb使用getIndexse()来查看某个集合的索引
+db.col_name.getIndex()
 
+索引分类
+_id索引，默认会自动创建
+单键索引,最普通的索引；形如该数据如下：
+{x:1, y:2, z:3},直接通过db.col_name.ensureIndex({x:1})就可以直接创建和使用
+多键索引，
 
 
 /***********************************mongo进阶*******************************************/

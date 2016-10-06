@@ -189,6 +189,17 @@ jinja中的宏就像是python中的函数
 调用时只需这样{{forms.input('username')}}
 
 8，编写命令行脚本
+#__init__.py
+from flask import Flask
+
+def create_app():
+    app = Flask(__name__)
+    
+    db.init_app(app)
+        ....
+        ....
+    return app
+
 flask 提供了flask-script这个扩展来供用户调用外部脚本的功能
 #manage.py
 

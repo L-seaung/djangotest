@@ -2,10 +2,13 @@ flask的安装
 1，在ubuntu 上可以用 sudo apt-get install flask 这条命令进行简单的安装（全局安装）
 2，也可以在pypi.org上下载源码包进行编译安装，利用tar -zxvf 命令进行解压， cd进去解压好的目录执行sudo python setup.py install 命令进行安装
 ，注意我安装时用到了超级用户的权限，
-3，当然也可以使用 pip 这个工具进行安装，安装前检查pip的版本，和升级它（这虽然不是必须的，但是版本太老也不行，原因是我遇到过pip的版本太老，在安装python的一些扩展时报了不应该的错误）
+3，当然也可以使用 pip 这个工具进行安装，安装前检查pip的版本，和升级它（这虽然不是必须的，但是版本太老也不行，原因是我遇到过pip的版本太老，
+在安装python的一些扩展时报了不应该的错误）
 
 虚拟环境的安装（virtualenv）
-1，因为我的机子ubuntu，所以我用的命令是sudo apt-get install virtualenv 来进行安装，你也可以下载相应的源码包，解压进行编译安装， 当然还可以用pip进行安装
+1，因为我的机子ubuntu，所以我用的命令是sudo apt-get install virtualenv 来进行安装，你也可以下载相应的源码包，解压进行编译安装，
+ 当然还可以用pip进行安装
+
 2，为什么要安装和创建虚拟环境，这样做是为了解决，python包依赖之间的冲突；创虚拟环境的命令virtualenv 虚拟环境名
 3，激活虚拟环境 . 虚拟环境的目录/bin/activate
 
@@ -259,12 +262,43 @@ class LoginForm(Form):
     Password = PasswordField(u'密码', max(255), [Datareuest()])
     submit = SubmitField(u'提交')
 
+后台处理表单的视图函数
+#views.py
+@app.route('/user/<name>', method=['GET', 'POST'])
+def loginForm(name):
+    form = LoginForm()
+    return render_template('login.html', form=form)
+    
+哈嘻的处理表单视图函数
+#views.py
+@app.route('/user/<name>', method=['GET', 'POST'])
+def loginForm(name):
+    if request.method = 'POST':
+        request.get = form['username']
+
+
+前台输出表单
+#example.html
+<form method="post">
+     {{form.username.label}}
+     {{form.username()}}
+     {{form.password.label}}
+     {{form.password()}}
+     {{form.submit()}}
+</form>
+
 12，flask-Admin扩展
 flask提供了Admin这个扩展来编写我们的后台管理界面
 flask-admin制定了三种视图类来扩展编写后台界面：
 BaseView, ModelView, AdminView这三种视图类来处理不同的路由
 
+13,flask-bcryp
+flask提供了flask-Bcrypt
 
-
+def set_password(self, passowrd):
+    self.passwrd = set_genarnal_hash(password)
+    
+def check_password(self, password):
+    return self.passwrod.check_password_hash(self.password, password)
 
 

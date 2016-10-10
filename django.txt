@@ -87,3 +87,50 @@ b，例子：
 author__name = 'name'
 pub = publisher.objects.get(name='name')
 pub.book_set.all()
+
+
+14，
+username
+password
+first_name
+laste_name
+
+from django.contrib.auth.models import User
+
+class MyUser(models.Model):
+    premission = models.IntegerField(label=u'权限', default=1)
+    nigoname = models.OneToOneField(default=1)
+    
+    
+#views.py
+from yourapp.models import User
+
+def account(request):
+    if request.method == 'POST':
+      email = request.get['email']
+      username = request.get['username']
+      password = request.get['password']
+      user = User.objects.create_user(username=username, email=email, password=password)
+      user.save()
+      return HttpResponse "create user success!"
+    return "failure!"
+    
+
+
+from django.contrib.auth import authenticate, User
+
+def login(request):
+    if request.method == 'post':
+        username = request.get['username']
+        password = request.get['password']
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            if user.is_active:
+                login(request, user)
+                return render('/index.html')
+                
+
+                              
+
+
+

@@ -3,12 +3,35 @@ what is variable
 variables come from mathematics computer languange can store the results can be expressed after the abstract value of the concept
 
 
+1，合法字符串,字母，数字，
+2，字符数量 <=20   
+3,注意区分大小写 
+
+变量的声明 
+声明： 
+        变量名 = 变量值 如 var=1
+变量值的类型：自动分配， 数字，字符串， 日期， 
+	
+调用方式：$+变量名 如 $var
+
+作用范围：
+
+
+在单引号中调用变量会把变量名原样输出，
+
+
+
+shell 
+shell
 
 
 
 
 
 
+环境变量的加载，首先它会加载/etc/profile
+                        /etc/bash.bashrc
+                        /etc/profile.d/*sh
 
 
 

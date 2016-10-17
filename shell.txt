@@ -1,37 +1,44 @@
-what is variable
+shell 自定义变量
 
-variables come from mathematics computer languange can store the results can be expressed after the abstract value of the concept
+什么是变量
+1，变量来源于数学，是计算机语言中能存储计算结果或能表示值抽象的概念
 
+2，自定义变量的规则
+1），合法的字符串：字母，数字，下划线
+2），字符数量：<=20
+注意区分大小写
 
-1，合法字符串,字母，数字，
-2，字符数量 <=20   
-3,注意区分大小写 
+3，变量的声明
+变量名 = 变量值 如：variable = 2
+4，变量值的类型：自动分配， 数字， 字符串， 日期， 数组
+5，变量的调用方式：$变量名   如：$variable
+6,变量的作用范围：脚本的生存期内
 
-变量的声明 
-声明： 
-        变量名 = 变量值 如 var=1
-变量值的类型：自动分配， 数字，字符串， 日期， 
-	
-调用方式：$+变量名 如 $var
+单引号和双引号
+在单引号中调用变量的结果是他会把变量的应用原样输出，想要打印变量的值用双引号就行啦
 
-作用范围：
-
-
-在单引号中调用变量会把变量名原样输出，
-
-
-
-shell 
-shell
+反引号的作用：输出命令的结果
 
 
+shell中的环境变量
+什么是环境变量？
+在shell中用来存储有关shell会话和工作环境信息的变量
 
+环境变量的查看：
+可以用set或env命令来查看shell中的环境变量，但是set命令查看到的环境变量比env查看到的还要多，原因是set命令可以返回shell进程中所有定义的变量
 
+shell环境变量的生存期
 
-
-环境变量的加载，首先它会加载/etc/profile
-                        /etc/bash.bashrc
-                        /etc/profile.d/*sh
+环境变量的加载， 首先它会加载:/etc/profile文件中的配置
+                         /etc/bash.bashtc
+			 /etc/profile.d/*sh
+			 变量的加载其次是在家目录中加载隐藏文件
+			 $HOME/.bash_profile
+			 $HOME/.bash_login
+			 $HOME/.profile
+			 
+环境变量的修改
+PATH=$PATH:~/shellscript
 
 
 

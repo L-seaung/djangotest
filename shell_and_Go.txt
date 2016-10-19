@@ -49,89 +49,176 @@ PATH=$PATH:~/shellscript
 -----------------------------------------------------------------------------------------------------------------
 About Go language programmming
 
-A：变量类型
+#go语言
 
-1：整型 int/uint
-2：字符型 string
-3：布尔型：bool
-4：浮点型：float32/float64
-5：引用类型：函数
-6：指针型
+A：go类型与变量
 
-变量与零值
-int ---> 0
-float ---> 0.0
-string ---> " "(空字符串)
-bool ---> false
-nitr ---> NULL
+1，布尔型：bool
+1），长度：1位
+2），取值范围：true-false
 
-变量的定义与赋值
+2，整型：int/uint
+1），根据平台可为32或64
 
-单个变量的定义与赋值
-var <variable_name> <varable_type> 如：var name string
-name = "test_name"
+3，8位整型：int8/uint8
+1），长度：1字节
+2），取值范围：-128--127/0--255
 
-var age int = 12
+4，字节型：byte（uint8的别名）
 
-并行赋值
-var <variable1>, <variable2> = <values>, <values>
+5，16位整型：int16/uint16
+1），长度：2字节
+2），取值范围：-32768--32767/0--65535
 
-变量组
+6，32位整型：int32/uint32
+1），长度：4字节
+2），取值范围：-2^32/2-2^32/2-1/0-2^33-1
 
-var(
-	variable1
-	variable2
-	variable3
-	.......
+7，64位整型：int64/uint64
+1），长度：8字节
+2），取值范围：-2^64/2-2^64/2-1/0-2^65-1
+
+8，浮点型：float32/float64
+1），长度：4/8字节
+2），小数位：精确到7/15小数位
+
+9，复数型：complex64/complex128
+1），长度：8/16字节
+
+10，指针型：uintptr
+1），足够保存指针的32/64位整型
+
+11，其他类型
+1），数组
+2），结构
+3），字符串
+
+12，引用类型
+1），切片（slice）
+2），类哈希（map）
+3），管道
+
+13，接口型（interface）
+   函数型（func）
+   
+B：类型的零值和别名
+
+零值并不等价于空值（NULL）是指在变量生命为某种类型之后自动获得的默认值
+
+1),int--->0
+2),bool--->false
+3),float--->0.0
+4),string--->""(空字符串)
+5),struct--->空结构
+6),引用类型--->nil(空指针)
+
+类型别名：
+1），类型别名可以为某个类型赋予新的合法名称
+2），类型别名并不是单纯的重命名或指向，而是用源类型作为底层类型，定义了一个全新的类型
+3），新类型与源类型之间需要类型转换，属于相互兼容的类型
+4），新类型可以拥有属于自己的一套方法
+5），新类型不会继承源类型的方法，而需要进行内型转换后才可以调用
+
+type Int string
+     别名   源类型
+     
+C：变量的声明与赋值
+
+1，单个变量的声明与赋值
+1），声明格式：var <varibale_name> <variable_type>
+          如：var a int
+2），赋值格式：<variable_name> = <expression>
+          如：a = 4
+
+3），声明并赋值()
+var <variable_name> [variable_type] = <expression>
+
+example:
+       var name string = "wengjiahao"
+       
+
+
+<variable_name>:=<expression>
+
+example:
+       age:=12
+ 
+4)，使用下划线（_）抛弃赋值：_=<experssion>
+
+当导入一个包，但不需要他的内容时，只需要调用它的初始化函数时候，
+
+5），
+1，可以使用var()
+2，
+
+var(                            var(
+    a int = 1                         a = 1
+    b string = "name"     or          b = "name"  
+    c bool = true                     c = true
+)                                  )
+
+
+var <variable1>, <varialbe2>[variable_type] = <experssion1>, <experssion2>   (必须是相同类型的变量)
+
+var name, sex string = "wengjiahao", "man"
+
+<variable1>, <varialbe2> := <experssion1>, <experssion2>
+
+name, age, sex := "nmaespace", 12, "m"
+
+
+notes:
+1》使用var()
+2》声明全局变量时不可以使用:=的方式，
+3》var 
+
+
+D:
+1）
+2）
+3）使用const
+4）使用const()来定义常量组5
+5）
+6）
+
+const a int = 1
+const a = 1
+const (
+     text = "1234"
+     number = 12
+     len(text)
+     num = a*20
 )
 
-类型推断
-
-a, b, c, d = 1, "string", "hello", 564
+const j, k, l = 10, 20, 30
 
 
 
-常量的定义与iota
+
+1》在定义常量组时，如果不提供初始值，
+2》
 const(
-	const_variale_list
-	...
+    a = "A"
+    b
 )
 
-使用iota实现枚举
+
+iota
+1》iota
+2》iota的值是从0开始的，
+3》每个常量组都会将iota的值重置为0，（不同常量组间iota）
+4》通过常量的初始化规则和iota
 const(
-	TODAY = iota
-	TOMORRO
-	YEARSDAY
+    a = iiota
+    b
+    c
 )
 
-流程控制
-if语句块
-package main
-
-import (
-	io "fmt"
+const(
+    a = iota
+    b = iota       ------->结果为0,1,2
+    c
 )
-
-func main(){
-	var i int = 3
-	if i <= 2 && i !=0{
-		io.Println(i)
-	}else{
-		io.Println("done!")
-	}
-}
-
-for 语句块
-
-
-
-
-
-
-
-
-
-
 
 
 

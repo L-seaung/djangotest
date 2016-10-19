@@ -44,6 +44,99 @@ PATH=$PATH:~/shellscript
 
 
 
+-----------------------------------------------------------------------------------------------------------------
+----------------------------华华丽的分割线-------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------
+About Go language programmming
+
+A：变量类型
+
+1：整型 int/uint
+2：字符型 string
+3：布尔型：bool
+4：浮点型：float32/float64
+5：引用类型：函数
+6：指针型
+
+变量与零值
+int ---> 0
+float ---> 0.0
+string ---> " "(空字符串)
+bool ---> false
+nitr ---> NULL
+
+变量的定义与赋值
+
+单个变量的定义与赋值
+var <variable_name> <varable_type> 如：var name string
+name = "test_name"
+
+var age int = 12
+
+并行赋值
+var <variable1>, <variable2> = <values>, <values>
+
+变量组
+
+var(
+	variable1
+	variable2
+	variable3
+	.......
+)
+
+类型推断
+
+a, b, c, d = 1, "string", "hello", 564
+
+
+
+常量的定义与iota
+const(
+	const_variale_list
+	...
+)
+
+使用iota实现枚举
+const(
+	TODAY = iota
+	TOMORRO
+	YEARSDAY
+)
+
+流程控制
+if语句块
+package main
+
+import (
+	io "fmt"
+)
+
+func main(){
+	var i int = 3
+	if i <= 2 && i !=0{
+		io.Println(i)
+	}else{
+		io.Println("done!")
+	}
+}
+
+for 语句块
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -40,6 +40,21 @@ shell环境变量的生存期
 环境变量的修改
 PATH=$PATH:~/shellscript
 
+7,shell
+1，数学运算     exper expression
+2,逻辑运算      
+&，|，<,>,=,!=,<=,>=
+
+3,
++
+-
+*
+/
+%
+()
+
+
+
 
 
 

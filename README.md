@@ -1,3 +1,3 @@
-# 编程笔记，仅此而已
+# On programming those things
 
-喜欢就看看吧，不喜欢也没办法
+Like a little more, happy life point

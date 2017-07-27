@@ -1,0 +1,190 @@
+0，装饰器
+   def check_is_admin(f):
+       def wrapper(*args, **kwargs):
+           if kwargs.get('username') != 'admin':
+               raise Exception("this user is not allowed to get food")
+           return f(*args, **kwargs)
+        return wrapper
+
+   class Storage(object):
+       @check_is_admin
+       def get_food(self, username, food):
+           return self.storage.get(food)
+       
+       @check_is_admin
+       def put_food(self, username, food):
+           return storage.put(food)
+
+   装饰器本质上只是一个函数，这个函数接收其他函数作为参数，并将其以一个新的修改的函数进行替换
+
+   列如：
+        def bread(func):
+            def wrapper():
+                print("</=========\>")
+                func()
+                print("/------------\")
+            return wrapper
+
+        @bread
+        def sandwich(food='---func----'):
+            print(food)
+
+        >>>结果
+        >>></===========\>
+        >>>---func----
+        >>>/------------\
+1，保留原函数中的属性（被装饰的函数的属性）
+    可以使用python中的内置模块functools
+    import functools
+
+    def is_admin(f):
+        @functools.wraps(f)
+        def wrapper(*args, **kwargs):
+            if kwargs.get("username") != 'admin':
+                raise Exception("this user is not allowed to get food")
+            return f(*args, **kwargs)
+        return wrapper
+    上面的代码也可以写成下面的形式
+    def is_admin(f):
+        def wrapper(*args, **kwargs):
+            if kwargs.get("username") != 'admin':
+                raise Exception('this user is not allowed to get food')
+            return f(*args, **kwargs)
+        return functools.wraps(f)(wrapper) # important
+
+2，使用inspect模块获取函数参数
+    note：获取位置参数
+    inspect能够取出函数的签名，并对其进行操作
+    import functools
+    import inspect
+
+    def check_is_admin(f):
+        @functools.wraps(f)
+        def wrapper(*args, **kwargs):
+            func_args = inspect.getcallargs(f, *args, **kwargs)
+            print(func_args)
+            if func_args.get('username') != 'admin':
+                raise Exception("this user is not allowed to get food")
+            return f(*args, **kwargs)
+        return wrapper
+
+    @check_is_admin
+    def get_food(username, food='chocolate'):
+        return "{0} get food: {1}".format(username, food)
+
+    def main():
+        print(get_food('admin'))
+
+    if __name__ == '__main__':
+        main()
+
+    函数inspect.getcallargs，它返回一个将参数名字和值作为键值对的字典，这个函数返回{'username': 'admin', 'food': 'chicolate'}.这意味着我们的装饰器不必检查参数username是基于位置参数还是基于关键字的参数，而只需在字典中查找即可
+
+3，给装饰器传递参数
+    def timeout(seconds, erro_message="function call timed out"):
+        def decorate(func):
+            def _handle_timeout(signum, frame):
+                raise TimeoutError(erro_message)
+
+            def wrapper(*args, **kwargs):
+                signal.signal(signal.SIGALRM, _handle_timeout)
+                try:
+                    result = func(*args, **kwargs)
+                finally:
+                    signal.alarm(0)
+                return result
+            return functools.wraps(func)(wrapper)
+        return decorated
+
+    import time
+
+    @timeout(1, 'Function slow aborted')
+    def slow_function():
+        time.sleep(5)
+
+    def is_admin(admin='admin'):
+        def decorated(f):
+            @functools.wraps(f)
+            def wrapper(*args, **kwargs):
+                if kwargs.get("username") != admin:
+                    raise Exception("this user is not allowed to get food")
+                return f(*args, **kwargs)
+            return wrapper
+        return decorated
+
+    @is_admin(admin='root')
+    def barfoo(username='someone'):
+        """"do crazy stuff"""
+        print("{0} get food".format(username))
+
+    if __name__ == '__main__':
+        barfoo(username='root')
+
+4，装饰器的使用场景
+    a，注入参数（提供默认参数，生成参数）
+    b，记录函数行为（日志，缓存，计时什么的）
+    c，预处理/后处理（配置上下文什么的）
+    d，修改调用时的上下文（线程异步或者并行，类方法）
+    列子如下：
+        
+        def benchmark(func):
+            '''
+            a decorator that prints the time a function takes
+            to exceute.
+            '''
+            import time
+            def wrapper(*args, **kwargs):
+                t = time.clock()
+                res = func(*args, **kwargs)
+                print(func.__name__, time.clock()-t)
+                return res
+            return wrapper
+
+        def logging(func):
+            '''
+            a decorator that logs the acticity of the script
+            (it actually just prints it, but it could be logging!)
+            '''
+            def wrapper(*args, **kwargs):
+                res = func(*args, **kwargs)
+                print("func.__name__", args, kwargs)
+                return res
+            return wrapper
+
+        def counter(func):
+            '''
+            a decotate that counts and prints the number of times a function has been executed
+            '''
+
+            def wrapper(*args, **kwargs):
+                wrapper.count = wrapper.count + 1
+                res = func(*args, **kwargs)
+                print("{0} has been used: {1}".format(func.__name__, wrapper.count))
+                return res
+            wrapper.count = 0
+            return wrapper
+
+        @counter
+        @benchmark
+        @logging
+        def reverse_string(string):
+            return str(reversed(string))
+
+5，类装饰器
+    优点：相比函数装饰器，类装饰器具有灵活度大，高内聚，封装性等优点。使用类装饰器主要依靠类的__call__方法，当使用@形式将装饰器附加到函数时，就会调用此方法。
+    class Foo(object):
+        def __init__(self, func):
+            self._func = func
+
+        def __call__(self):
+            print('class decorator runing')
+            self._func()
+            print('class decorator ending')
+
+    @Foo
+    def bar():
+        print('bar')
+
+    if __name__ == '__main__':
+        bar()
+

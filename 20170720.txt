@@ -1,0 +1,65 @@
+0, Nginx 的安装
+   1，安装所需依赖
+       centos：
+          yum -y install gcc gcc-c++ make libtool zlib zlib-devel openssl openssl-devel pcre pcre-devel
+       ubuntu:
+          apt-get install gcc gcc-c++ make libtool zlib zlib-devel openssl openssl-devel pcre pcre-devel
+
+   2，下载Nginx稳定版本
+           http://www.nginx.org/download.html
+           解压到/usr/local/src 目录
+   3，编译安装
+        a，先配置
+           ./configure --prefix=PATH
+
+        b，参数说明
+           --prefix=PATH：指定安装Nginx的安装目录，默认为/usr/local/nginx
+           --conf-path=PATH：设置Nignx的配置文件的路径，nginx允许使用不同的配置文件启动，通过命令行中的-c选项，默认为prefix/conf/nginx.conf
+           --user=name：设置nginx工作进程的用户，安装完成后，可以随时在nginx.conf配置文件更改user指令。默认的用户名是nobody。--group=name
+           --with-pcre：设置PCRE库的源码路径，如果以通过yum方式安装，使用--with-pcre自动找到库文件。使用--with-pcre=PATH时，需要从PCRE网站下载pcre库的源码并解压，剩下的就交给Nginx的./configure和make来完成。perl正则表达式使用在localtion指令和nginx_http_rewrite_module模块
+           --with-zlib：指定zlib的源码解压目录，默认就启动的网络传输压缩模块ngx_http_gzip_module时需要使用zlib
+
+1，启动Nginx
+    a，基本启动方式：
+        /usr/bin/nginx
+    b，高级启动方式
+        /usr/bin/nginx -t -c ~/mynginx.conf -g "pid /var/run/nginx.pid; worker_processes 2;"
+
+        options
+            -?, -h print help 输出帮助信息
+            -v     print Version 输出版本信息
+            -V     print Nginx Version complier Version and configure parameters 列出nginx版本信息和编译版本和配置参数
+            -t     don't run just test the configuration file Nginx checks configuration for correct syntax and then try to open files referred in configuration
+                   不运行Nginx服务器测试和检查
+            -q     suppress non-error messages during donfiuguration testing
+            -s  signal send signal to a master process. stop, quit, reload, reopen(version>=0.7.53)
+                       发送信号给主进程，停止，退出，重载，重新打开
+            -p prefix  set prefix path (default:/usr/local/nginx) (version>=0.7.53)
+            -c filename specify which configuration file Nginx should use instead of the default指定nginx的配置文件，如果没有指定则使用默认的配置文件
+            -g          set global directives (version>=0.7.4)
+            directives
+
+2，停止或重启Nginx
+    a，/usr/bin/nginx -s stop 
+    b，kill -QUIT $(cat /usr/local/nginx/logs/nginx.pid)
+
+    ----------------------------------------------------------------------------
+    TERM,INT    quick shutdown 快速停止
+    ----------------------------------------------------------------------------
+    QUIT        graceful shutdown 平和的停止
+    ----------------------------------------------------------------------------
+    KILL        hatls a stubborn process 暴力停止进程
+    ----------------------------------------------------------------------------
+    HUP         configuration reload    重新加载配置文件
+                start the new worker processes with a new configuration 
+                开启一个新的工作进程 新的配置文件
+                gracefully shutdown the old worker processes 平和的停止工作进程
+    ----------------------------------------------------------------------------
+    USER1       reopen the log files
+    ----------------------------------------------------------------------------
+    USER2       upgrade Executable on the fly
+    ----------------------------------------------------------------------------
+    WINCH       gracefully shutdown the worker processes
+    ----------------------------------------------------------------------------
+
+

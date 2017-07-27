@@ -1,0 +1,64 @@
+数据库优化
+
+1，选用使用的字段属性
+   数据库中的表越小，在它上面执行的查询也就会越快，因此在建表时，为获取到更好的性能，可以将表中的字段设置得尽可能小
+   在可能的情况下，应该尽可能把字段设置为NOT NULL，执行查询的时候，数据库不用去比较NULL值
+   对于某些文本字段，如省份或性别，可以定义为ENUM类型，在MYSQL中ENUM类型被当作数值型数据来处理，而数值型数据被处理起来的速度比文本类型快得多
+
+2，使用连接（join）来代替子查询
+   子查询：
+          DELETE FROM customerinfo
+          WHERE costomerID NOT IN (SELECT customerid FROM salesinfo)
+          优点：
+               一次性完成很多逻辑上需要多个步骤才能完成的SQL操作，同时可以避免事务或表的死锁，写起来容易
+
+    JOIN查询：
+          SELECT * FROM customerinfo
+          LEFT JOIN salesinfo ON customerinfo.customerid = salesinfo.customerid
+          WHERE sakesinfo.customerid IS NULL
+          优点：
+               在mysql中不需要在内存中创建临时表
+
+3，使用联合（UNION）来代替手动创建的临时表
+   联合查询：
+          SELECT name, phone FROM client UNION
+          SELECT name, birthdate FROM author UNION
+          SELECT name, supplier FROM product
+
+          优点：
+               可以把多个需要使用临时表的两条或多条的select查询合并在一个查询中，在客户端的查询会话结束的时候，临时表会被删除，从而保证数据库整齐高效
+
+4，事务
+    事务：
+          BEGIN；
+             INSERT INTO salesinfo SET customerid=14;
+             UPDATE inventory SET quantity = 11 WHERE item="block";
+          COMMIT;
+          缺点：
+              具有独占性，在大型应用中，由于事务执行过程中，数据库会被锁定，因此其他的用户请求只能暂时等待事务结束
+
+5， 锁定表
+    锁定表：
+            LOCK TABLE inventory WRITE SELECT quantityy FROMinventory WHERE item="block";
+
+            UPDATE inventory SET Quantity=11 WHERE item="block" UNLOCKTABLES
+            优点：
+                 WRITE 关键字的LOCKTABLE上语句可以保证在UNLOCKTABLES命令被执行之前，不会有其他的访问对表进行插入更新或者删除操作
+
+            缺点：
+                 可以维护数据完整性，但是确不能保证数据的关联型
+
+6，使用外键
+   使用外键：
+            CREATE TABLE customerinfo(customerid int primary_key) engine=innodb;
+
+7，使用索引
+   使用索引：
+
+8，优化查询语句
+   a：相同类型的字段间进行比较操作
+   b：在建有索引的字段尽量不要使用函数操作
+   c：在搜索字符型字段时，尽量怒要使用LIKE和通配符
+   d：避免在查询中进行自动类型转换
+
+            

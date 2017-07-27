@@ -1,0 +1,41 @@
+1，@classmethod
+    我们要写一个只在类中运行而不在实例中运行的方法，如果我们想让方法不在实例中运行，可以这么做
+    class Kls(object):
+        not_inst = 0
+        def __init__(self):
+             Kls.not_inst = Kls.not_inst + 1
+
+        @classmethod
+        def get_no_of_instance(cls_obj):
+            return cls_obj.not_inst
+
+    ik1 = Kls()
+    ik2 = Kls()
+    print(ik1.get_no_of_instance())
+    print(Kls.get_no_of_instance())
+    这样的好处是：不管这个方式是从实例调用还是从类调用，它都用第一个参数把类传递过来
+
+2，@staticmethod
+    经常有一些跟类有关的功能但在运行时又不需要实例和类参与的情况下需要用到静态方法，比如更改环境变量或者修改其他类的属性等能用到静态方法
+
+    IND = 'ON'
+    class Kls(object):
+        def __init__(self, data):
+            self.data = data
+
+        @staticmethod
+        def checkind():
+            return (IND == 'ON')
+
+        def do_reset(self):
+            if self.checkind():
+                print('Reset done for:', self.data)
+        def set_db(self):
+            if self.checkind():
+                self.db = 'New db connection'
+            print('DB connection made for:', self.data)
+
+    ikl = Kls(12)
+    ikl.do_reset()
+    ikl.set_db()
+

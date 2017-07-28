@@ -1,3 +1,82 @@
 python中的魔术方法
 1，构造和初始化
-    a，__init__：对象初始化的时候调用
+    a，__init__：对象初始化的时候调用，只将传入的参数来初始化该实例
+    b，__new__：最先执行，用来创建类并返回这个类的实例
+    两者的区别：
+               __new__：在创建一个实例的过程中必定会被调用，但是__init__就不一定
+               比如通过pickle.load的方式反序列化一个实例就不会调用__init__
+
+    class Foo(object):
+        def __init__(self):
+            print "foo __init__"
+            return None
+
+        def __del__(self):
+            print "foo __del__"
+
+        notes:__new__在实际应用在很少会用到，除非时想控制类的创建
+
+2，析构函数
+    __del__：在对象的生命周期结束时，__del__会被调用，它定义的是当一个对象进行垃圾回收时候的行为
+    notes：x.__del__()并不是对del.x的实现，但是执行del x时会调用x.__del__()
+
+    foo = Foo()
+    foo.__del__()
+    print foo
+    del foo
+    print foo
+    如果调用了foo.__del__()对象本身仍然存在，但是调用了del foo就再也没有foo这个对象了
+    notes：如果解释器退出的时候对象还存在，就不能保证__del__被确切执行了
+
+3，属性访问控制
+    a，__getattr__(self, name)：该方法定义了试图访问一个不存在的属性的行为，因此，重载此方法可以实现捕获错误拼写然后进行重定向，或者对一些废弃的属性进行警告
+    b，__setattr__(self, name, value)：是实现封装的解决方案，它定义了对属性进行赋值和修改操作的行为
+    notes：不管对象的某个属性是否存在，它都允许为属性进行赋值，因此可以为属性的值进行定义操作。实现__setattr__时要避免无限递归的错误
+    c，__delattr__(self, name)：定义的是删除属性时的行为
+    notes：实现__delattr__时同时要避免无限递归的错误
+    d，__getattribute__(self, name)：定义了属性被访问时的行为，相比较下__getattr__只有属性不存在时才会起作用
+    举例子说明__setattr__的无限递归错误
+               def __setattr__(self, name, value):
+                   self.name = value
+                   # 每次属性赋值时，__setattr__都会被调用，因此不断调用自身导致无限递归
+                   |
+                   |
+                   |
+                   V
+                下面时正确写法
+                def __setattr__(self, name, value):
+                self.__dict__[name] = value
+
+                notes：__delattr__如果出现del self.name这样也会出现无限递归的错误
+
+
+                下面时说明上面时个魔术方法的调用情况
+
+                class Access(object):
+                    def __getattr__(self, name):
+                        print '__getattr__'
+                        return super(Access, self).__getattr__(name)
+
+                    def __setattr__(self, name, value):
+                        print '__setattr__'
+                        return super(Access, self).__setattr__(name, value)
+
+                    def __delattr__(self, name):
+                        print '__delattr__'
+                        return super(Access, self).__delattr__(name)
+
+                    def __getattribute__(self, name):
+                        print '__getattribute__'
+                        return super(Access, name).__getattribute__(name)
+
+                access = Access()
+                access.attr1 = True # __setattr__调用
+                access.attr1        # 属性存在，只有__getattribute__() 调用
+
+                try:
+                    access.attr2    # 属性不存在先调用__getattribute__后调用__getattr__()
+                except AttributeError:
+                    pass
+
+                del access.attr1    # __delattr__调用
+

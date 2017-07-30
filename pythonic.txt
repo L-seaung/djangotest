@@ -1,0 +1,48 @@
+1，理解pythonic概念
+   在交互式中输入import this可查看
+   d = {}
+   for c in (65, 97):
+       for i in range(26):
+           d[chr(i+c)] = chr((i+13) % 26 + c)
+
+   print "".join([d.get(c, c) for c in s])
+
+
+   def quicksort(arrary):
+        less = []
+        greater = []
+        if len(arrary) <= 1:
+           return arrary
+        pivot = arrary.pop()
+        for x in arrary:
+            if x <= pivot:
+                less.append(x)
+            else:
+                greater.append(x)
+        return quicksort(less) + [pivot] + qiucksort(greater)
+
+2，理解python与C语言的不同之处
+   a，python使用代码缩进的方式来分割代码块，不要用tab和空格混用
+   b，python中单，双引号的使用
+   c，三元操作符：x if bool else y
+
+3，在代码中适当添加注释
+    可以使用__doc__输出
+
+4，添加工行使代码布局更为优雅，合理
+
+5，编写函数的4个原则
+    a，函数设计要尽量短小，嵌套层次不宜过深
+    b，函数声明应该做到合理，简单，容易，易于使用
+    c，函数参数设计应该考虑向下兼容
+    d，一个函数只做一件事，尽量保证函数语句颗粒的一致性
+
+
+    def readfile(filename):
+        pass
+    def readfile(filename, log):
+        pass
+    def readfile(filename, logger=logger.info):
+        pass
+
+

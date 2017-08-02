@@ -1,0 +1,84 @@
+什么是REST
+    1，客户端-服务器：客户端和服务器之间隔离，服务器提供服务，客户端进行消费
+    2，无状态：从客户端到服务器的每个请求都必须包含理解请求所需的信息。换句话说，服务器不会存储客户端上一次请求的信息用来给下次使用
+    3，可缓存：服务器必须明示客户端请求能否缓存
+    4，分层系统：客户端和服务器之间的通信应该以一种标准的方式，就是中间层代替服务器做出响应的时候，客户端不需要做出任何变动
+    5，统一的接口：服务器和客户端的通信方法必是统一的
+    6，按需编码：服务器可以提供个执行的代码或脚本，为客户端在他们的环境中执行，这个约束是唯一一个是可选的
+
+
+第一个web service入口
+    #!/usr/bin/env python
+    from flask import Flask, jsonify
+
+    app = Flask(__name__)
+
+    tasks = [
+        {
+            'id': 1,
+            'title': u'buy groceries',
+            'description': u'milk, cheese, pizza, tylenol',
+            'done': False
+        },
+        {
+            'id': 2,
+            'title': u'learn python',
+            'description': u'need to find a good python tutorial on the web',
+            'done': False
+        }
+    ]
+
+    @app.route('/todo/api/v1.0/tasks', methods=['GET'])
+    def get_tasks():
+        return jsonify({'tasks': tasks})
+
+    if __name__ == '__main__':
+        app.run(debug=True)
+
+    访问方式：
+            curl -i http://localhost:5000/todo/api/v1.0/tasks
+
+第二个版本
+    from flask import Flask, jsonify, abort
+
+    app = Flask(__name__)
+
+    @app.route('/todo/api/v2.0/task/<int:task_id>'. methods=['GET'])
+    def get_tasks(task_id):
+        task = filter(lambda t: t['id'] == task_id, tasks)
+        if len(task) == 0:
+            abort(404)
+
+        return jsonify({'task': task[0]})
+
+    curl -i http://localhost:5000/todo/v2.0/tasks/2
+
+改善出错提示页面
+    from flask import make_response
+
+    @app.errorhandler(404)
+    def not_found(error):
+        return make_response(jsonify({"error": "Not found"}), 404)
+
+
+使用post方法添加任务
+    from flask import request
+
+    @app.route('/todo/api/v2.0/tasks', methods=['POST'])
+    def create_task():
+        if not request.json or not 'title' in request.json:
+            abort(404)
+
+        task = {
+            'id': tasks[-1]['id'] + 1,
+            'title': request.json['title'],
+            'description': request.json.get('description', ""),
+            'done': False
+        }
+
+        tasks.append(task)
+        return jsonify({'task': task}), 201
+
+    post访问方式：
+                curl -i -H "Content-Type: application/json" -X POST -d '{"title": "READ a book"}' http://localhost:5000/todo/api/v2.0/task
+

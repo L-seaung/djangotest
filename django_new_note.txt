@@ -1,0 +1,28 @@
+第一步
+     Django的安装
+                 使用pip安装
+                           pip install Django
+                           or
+                           pip install Django==Version
+                使用源码安装
+                           先下载 wget https://www.djangoproject.com/m/releases/1.11/Django-1.11.4.tar.gz
+                           再解压 tar -zxvf Django-x.x.x.tar.gz
+                           进入解压目录执行python setup.py install 进行安装
+
+第二部
+    开始一个Django项目
+                      django-admin startproject project_name
+    创建一个应用(进入project_name在执行)
+                django-admin startapp app_name
+                or
+                python manage.py startapp app_name
+
+第三步
+    运行开发服务器
+                  python manage.py runserver
+                  or
+                  python manage.py runserver 0.0.0.0:port
+                  or
+                  python manage.py runserver port
+
+

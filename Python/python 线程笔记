@@ -1,0 +1,125 @@
+0x1 python中创建线程的两种方式
+通过继承threading.Thread模块
+来看例子呀：
+#!/usr/bin/env python3
+# -*- coding:utf-8 -*-
+import threading
+
+class MyTread(threading.Thread):
+    def __init__(self, id):
+        threading.Thread.__init__(self)
+        self.id = id
+    def run(self):
+        print(self.id)
+使用threading.Thread直接在线程中运行函数
+例子：
+import threading
+def run(x, y):
+    for i in range(x, y):
+        print(i)
+t1 = threading.Thread(target=run, args=(12, 15))
+t1.start()
+
+0x2 Thread对象中的方法
+join()：如果一个线程或函数在执行过程中调用另一个线程，并且必须等待后一线程完成操作才能
+继续执行当前线程的执行（join([timeout])的函数原型）
+import threading
+import time
+class Mythread(threading.Thread):
+    def __init__(self, id):
+        threading.Thread.__init__(self)
+        self.id = id
+    def run(self):
+        x = 0
+        time.sleep(5)
+        print(self.id)
+        
+t = Mythread(1)
+def fun():
+    t.start()
+    t.join()
+    for i in range(50):
+        print(i)
+
+isAlive()查看线程的运行状态
+import threading
+import time
+class MyTread(threading.Thread):
+    def __init__(self, id):
+        threading.Thread.__init__(self)
+        self.id = id
+    def run(self):
+        time.sleep(5)
+        print(self.id)
+
+t = MyTread(4)
+def fun():
+    t.start()
+    print(t.isAlive())
+fun()
+
+线程名
+setName()设置线程名
+getName()获取线程名
+
+import threading
+class MyTread(threading.Thread):
+    def __init__(self, threadname):
+        threading.Thread.__init__(self, name=threadname)
+        
+    def run(self):
+        print(self.getName())
+t = MyTread('thread1')
+t.setName('Thread1')
+
+daemon属性
+主线程退出时，不管子线程是否完成都随主线程退出，当daemon属性值为True时就可以完成这个效果
+import threading
+import time
+class MyTread(threading.Thread):
+    def __init__(self, threadname):
+        threading.Thread.__init__(self, threadname)
+    def run(self):
+        time.sleep(5)
+        print(self.getName)
+        
+t = MyTread('t')       
+def fun():
+    t.start()
+    print('fun done!')
+    
+def func():
+    t2.start()
+    print('func done')
+    
+t2 = MyTread('t2')
+t2.daemon = True
+fun()
+func()
+
+线程同步
+使用Thread对象的Lock和Rlock就可以实现简单的线程同步
+Lock and Rlock对象都具有acquire和release方法
+如果某个数据在某一时刻只允许一个线程操作，则可以将操作过程放在acquire和release方法之间
+例子：
+import threading
+import time
+class Mythread(threading.Thread):
+    def __init__(self, threadname):
+        threading.Thread.__init__(self, threadname)
+    def run(self):
+        global x
+        lock.acquire()
+        for i in range(5):
+            x = x + 1
+        time.sleep(4)
+        print(x)
+        lock.release()
+lock = threading.Rlock()
+t = []
+for i in range(10):
+    t1 = Mythread(str(i))
+    t.append(t)
+x=0
+for i in t1:
+    i.start()

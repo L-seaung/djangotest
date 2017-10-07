@@ -1,0 +1,392 @@
+0x1 python 缩进
+
+python使用代码缩进的方式进行分层
+例如：
+if a > b:
+    print(a)
+else:
+    print(b)
+    
+0x2 python中的注释
+在python中使用#号进行代码的注释
+在进行大段的注释可以用三个单引号或三个双引号把代码块包起来
+例如：
+ '''                          """
+ this is a comment     or       this is a comment
+ '''                          """  
+ 
+0x3 python的基本输入输出函数
+输入函数
+input()#raw_input()python 2.x
+使用如下：
+    input("input your name")
+    user = input("input your name")
+    
+输出函数
+print()
+0x4 python计算器
+python math模块提供了丰富的数学函数
+例如：
+import math
+math.cos(0.5)
+math.sin(math.pi)
+math.sin(0.6)
+math.tan(0.6)
+math.acos(0.6)
+math.log10(x)#求x的10底对数
+math.sqrt(x)#求x的平方根
+0x5 python数据类型
+整型和浮点型
+在python2.x中数字类型共有4种。分别是：
+整型（int）：一般意义上的数
+长整型（long）：无限大小的数，在其结尾需要添加小写或大写字母l或L
+浮点型（float）：小数或者用E或e表示幂，如：2.7， 1234e+10， 1.5E-10
+复数型（complex）：复数的虚部以字母j或J结尾，如：1+2j， 1.2 + 2J
+在python3着哦该已经没有long这种类型，不过int与python2.x中的long类型是相同的
+算术运算符
+**乘方
+*乘法
+/除法
+//整除
+%取余
++加法
+-减法
+逻辑运算符
+|位或
+^位异或
+&位与
+<< 左移
+>> 右移
+字符串
+字符串通常用单引号，双引号，或三个双引号（三个单引号）
+如：
+  str="string"-->str="""string 
+                         string
+                         string
+                     """
+字符串操作函数
+在这我只列出我比较常用的字符串操作函数
+str = 'hi python!'
+str.count('p')#获取字符串中p的数目
+str.find('hello')#获取字符串中hello的起始位置
+str.join("HI")#连接字符串(以str字符串为分隔符连接参数中的每一项)
+str.split()#字符串分割
+#str.join()并不改变原字符串，只是返回一个新的字符串，如果参数字符串只有一个就会返回参数字符串
+#str.split([sep[,maxsplit]])sep可选参数指定分割的字符串，maxsplit可选参数指定分割次数
+字符串的索引和分片([index][:][::])
+>>>str = "pythoncode"
+>>>str[2]
+>>>'c'
+>>>str[-1]
+>>>'e'
+>>>str[1:1]#从索引为1但是不包含1的索引
+>>>    #输出为空
+len(str)#获取字符串的长度
+
+格式化字符串
+%c：单个字符
+%s：十进制整数
+%o：八进制整数
+%x：十六进制整数
+%X：十六进制整数
+列如：
+>>>s = 'so %s day!'
+>>>print(s % 'beautiful')
+>>>so beautiful day
+
+字符串，数字类型的转换
+str()and int()函数进行数字和字符串之间的转换
+在python2.x中，习惯使用string模块中的atoi()函数将字符串转换为整数
+string.atoi(s[,base])
+s:进行转换的字符串
+base:可选参数，表示将字符串转换成证书的方法
+例如：
+>>>import string
+>>>string.atoi('10') + 4
+>>>14
+
+原始字符串
+python中比较特殊的的字符串，以大写R或小写字母r开始，在原始字符串中。字符"\"不在表示转义的含义
+
+python数据类型：列表和元组
+创建一个列表
+>>>list = []
+>>>list.append(2)#向列表添加元素
+>>>list.count(2)#计算2在列表中出现的次数
+>>>1
+>>>list.index(2)#获取2在列表的位置
+>>>0
+>>>list.insert(1, 3)#向列表中插入元素,可以指定元素的插入位置
+>>>print(list)
+>>>[2, 3]
+>>>list.pop()#删除列表中的元素，如果未指定参数默认是删除最后一个元素，并返回被删除元素
+>>>print(list)
+>>>[2]
+>>>list.remove()#删除列表中的成员
+>>>list.reverse()#反序列表中的顺序
+>>>list.sort()#队列表中的成员进行排序
+
+创建一个元组
+
+>>>tuple = ('a', 'b', 'c')
+>>>list.insert(4, tuple)#向列表中插入一个元组
+
+python数据类型：字典
+创建一个字典
+>>>dic = {"java":"1995", "python":"1989", "perl":"1987"}
+>>>dic.copy()#复制字典
+>>>{"java":"1995", "python":"1989", "perl":"1987"}
+>>>dic["javascipt"] = 5#增加一项
+>>>dic.clear()#清空字典
+>>>dic.values()#获取字典中值，以一个列表的方式
+>>>dic.keys()#获取字典中键，以一个列表的方式
+
+pyhton数据类型：文件
+open(filename, mode, bufsize)
+filename:文件名
+mode:打开文件的方式
+bufsize:可选参数，缓冲区大小
+算了比较懒给例子吧：
+file = open('/home/username/Pycode/main.txt', 'w')
+print(file.write("python code\n"))
+a = []
+for i in range(10):
+    s = str(i) + '\n'
+    a.append(s)
+file.writelines(a)
+file.close()
+s = file.read()
+print(s)
+
+0x6 python流程控制
+if分支结构
+例子：
+     a = 2
+     b = 3
+     if a > b:
+         print(a)
+     else:
+         print(b)
+         
+     if a > b:
+         print(b)
+     elif a < b:
+         print(a)
+     else:
+         print("done!")
+         
+for 循环结构
+for i in [1, 3, 4, 5, 6]:
+    if i == 6:
+        break
+    if i == 2:
+        continue
+    print(i)
+    else:
+        print("all")
+        
+range([start,], stop[,step])函数
+start:可选参数，起始值
+stop:终止数
+step:步长
+for i in range(1, 5 + 1):
+    print(i)
+    
+import math
+for i in range(50, 100+1):
+    for t in range(2, int(math.sqrt(i)) + 1):
+        if i % t == 0:
+            break
+    else:
+        print(i)
+        
+while 循环结构
+
+x = 1
+while x <= 5:
+    print(x)
+    x = x + 1
+
+0x7 python自定义函数
+函数的声明
+def func_name([optionlist...]):
+    block
+    return <return_values>
+
+例如：
+    L = [1, 2, 3, 4, 5, 6]
+    def ListSum(L):
+        result = 0
+        for i in L:
+            result = result + i
+        return result
+        
+函数调用
+func_name([optionlist,,,])
+
+例如：
+    ListSum(L)
+    
+函数的参数
+(在函数声明时给函数设置一个默认值，再调用该函数时，既使不传值，该函数就是用该默认值)
+def func_name([optionlist = default_values]):
+    block
+    
+可变长参数（*args, **kwargs）
+*args实际上传入的就是一个列表
+**kwargs传入的是一个字典
+例如：
+    de myfunc(*args):
+       l = []
+       for i in args:
+           l.extend(i)#将所有参数中的列表合并到一起
+       return l
+
+变量的作用域
+
+作用域就是变量的作用范围不同呗
+
+局部作用域和全局作用域
+如果要在函数中使用函数外的变量，则可以在变量前使用global
+例如：
+    def fun(x):
+        global a
+        return a + x
+    a = 2
+    fun(8)
+    >>>10
+最简单的函数，用lambda声明函数
+lambda 参数列表：表达式
+
+例如：
+    fun = lambda x: x * x - x
+    fun(4)
+    fun实际指向lambda定义的函数地址
+
+0x8 python中的面向对象
+python面向对象思想
+1）确定对象及其属性和方法
+2）分析对象之间的联系，确定其通信机制
+3）将具有共同特征的对象抽象为类对象
+4）设计，实现类。并确定类相互间的继承关系
+5）创建对象实例，实现对象的相互联系
+
+python类和对象
+1）类的抽象性：具有共同方法及属性的一类对象的描述
+2）类的封装性：将属性和方法的封装，外部不可见，只能通过类提供的接口才能与之交互
+3）类的继承性：拥有父类的属性和方法
+4）类的多态性：子类自己的特点咯
+
+类的定义
+请看下面的例子骚年
+class <class_name>:
+    block
+    
+class human:
+    name = "leeseaung"
+    age = 17
+    sex = 0
+
+类的使用
+类在定义后必须先实例化才能使用
+例子：
+    human()
+    
+类的属性
+如果类中的属性是以下划线开始的，则该属性为类的私有属性
+例子：
+    class book:
+        __author = ''
+        __name = ''
+        __page = 0
+        price
+        
+类的方法
+def关键字定义函数
+定义内方法
+例子：
+class book:
+    __author
+    __name
+    __page
+    def show(self):
+        print(self.__author)
+        
+以双下划线开始的类方法是私有方法
+在类的内部调用其私有方法时，要使用“self.私有方法名”的形式
+class book:
+    __author
+    __name
+    def __check(self, item):
+        if item == '':
+            return 0
+        else:
+            return 1
+    def show(self):
+        if self.__check(self.__author):
+            print(self.__author)
+        else:
+            print("No values")
+
+类的继承
+注意：
+    子类可以继承父类的公有属性和公有方法，但是不能继承父类的私有属性和方法
+class book:
+    __author
+    __name
+    def __check(self, item):
+        if item == '':
+            return 0
+        else:
+            return 1
+class Student(book):
+    def __init__(self):
+        pass
+        
+类的多重继承
+例子：
+    class new_name(farther1, farther2,...farthern):
+        pass
+        
+使用多重继承需要注意圆括号中父类名字的顺序
+
+调用父类的方法
+例子：
+    f = farther1.method1()
+    
+python 中的异常处理机制
+常见的异常处理有除零异常，下标越界等
+
+异常的捕获
+try:
+    block
+except <exception name>:
+    block
+except <exception name>:
+    block
+else:
+    block
+    
+try:
+    block
+finally:
+    block
+finally 是无论如何都会执行的语句（向上抛出异常）
+
+用raise抛出异常
+raise 异常名
+raise 异常名，附加数据
+例子：
+    try:
+        raise Exception
+    except Exception:
+        print('Errors')
+        
+自定义异常类
+通过继承Exception类来创建自己的异常类。异常类和其他的类并没有区别，一般在异常类中仅需要定义几个属性信息
+例子：
+    class MyErros(Exception):
+        def __init__(self, data):
+            self.data = data
+        def __str__(self):
+            return self.data
